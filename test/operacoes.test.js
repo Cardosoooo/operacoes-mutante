@@ -74,3 +74,142 @@ describe('Suíte de Testes Fraca para 50 Operações Aritméticas', () => {
   test('49. deve calcular o triplo de um número', () => { expect(triplo(10)).toBe(30); });
   test('50. deve calcular a metade de um número', () => { expect(metade(20)).toBe(10); });
 });
+
+// Testes adicionados a partir dos mutantes que sobreviveram na primeira execução do Stryker
+describe('Testes que matam os mutantes sobreviventes', () => {
+  describe('divisao', () => {
+    test('deve lançar erro com a mensagem de divisão por zero', () => {
+      expect(() => divisao(5, 0)).toThrow('Divisão por zero não é permitida.');
+    });
+  });
+
+  describe('raizQuadrada', () => {
+    test('deve lançar erro para número negativo', () => {
+      expect(() => raizQuadrada(-9)).toThrow('Não é possível calcular a raiz quadrada de um número negativo.');
+    });
+    test('deve aceitar zero, que fica no limite da validação', () => {
+      expect(raizQuadrada(0)).toBe(0);
+    });
+  });
+
+  describe('fatorial', () => {
+    test('deve lançar erro para número negativo', () => {
+      expect(() => fatorial(-1)).toThrow('Fatorial não é definido para números negativos.');
+    });
+    test('deve retornar 1 para 0 e para 1', () => {
+      expect(fatorial(0)).toBe(1);
+      expect(fatorial(1)).toBe(1);
+    });
+  });
+
+  describe('mediaArray', () => {
+    test('deve retornar 0 para array vazio', () => {
+      expect(mediaArray([])).toBe(0);
+    });
+  });
+
+  describe('maximoArray e minimoArray', () => {
+    // As mensagens do código têm "не" (cirílico) no lugar de "não",
+    // por isso os testes conferem só o trecho final da mensagem.
+    test('deve lançar erro ao buscar o máximo de array vazio', () => {
+      expect(() => maximoArray([])).toThrow('possui valor máximo.');
+    });
+    test('deve lançar erro ao buscar o mínimo de array vazio', () => {
+      expect(() => minimoArray([])).toThrow('possui valor mínimo.');
+    });
+  });
+
+  describe('isPar e isImpar', () => {
+    test('isPar deve retornar false para número ímpar', () => {
+      expect(isPar(7)).toBe(false);
+    });
+    test('isImpar deve retornar false para número par', () => {
+      expect(isImpar(4)).toBe(false);
+    });
+  });
+
+  describe('isPrimo', () => {
+    test('deve retornar false para 1, 0 e negativos', () => {
+      expect(isPrimo(1)).toBe(false);
+      expect(isPrimo(0)).toBe(false);
+      expect(isPrimo(-7)).toBe(false);
+    });
+    test('deve retornar false para números compostos', () => {
+      expect(isPrimo(4)).toBe(false);
+      expect(isPrimo(9)).toBe(false);
+    });
+    test('deve reconhecer 2 como primo', () => {
+      expect(isPrimo(2)).toBe(true);
+    });
+  });
+
+  describe('produtoArray', () => {
+    test('deve retornar 1 para array vazio', () => {
+      expect(produtoArray([])).toBe(1);
+    });
+  });
+
+  describe('clamp', () => {
+    test('deve retornar o mínimo quando o valor está abaixo do intervalo', () => {
+      expect(clamp(-5, 0, 10)).toBe(0);
+    });
+    test('deve retornar o máximo quando o valor está acima do intervalo', () => {
+      expect(clamp(15, 0, 10)).toBe(10);
+    });
+    test('deve devolver o próprio valor quando ele está na fronteira', () => {
+      expect(clamp(0, 0, 10)).toBe(0);
+      expect(clamp(10, 0, 10)).toBe(10);
+      // 0 e -0 empatam nas comparações, mas o toBe (Object.is) diferencia os dois:
+      // é o único jeito de ver se a função trocou o valor pelo limite
+      expect(clamp(-0, 0, 10)).toBe(-0);
+      expect(clamp(0, -10, -0)).toBe(0);
+    });
+  });
+
+  describe('isDivisivel', () => {
+    test('deve retornar false quando a divisão deixa resto', () => {
+      expect(isDivisivel(10, 3)).toBe(false);
+    });
+  });
+
+  describe('conversão de temperatura', () => {
+    test('deve converter 100 °C para 212 °F', () => {
+      expect(celsiusParaFahrenheit(100)).toBe(212);
+    });
+    test('deve converter 212 °F para 100 °C', () => {
+      expect(fahrenheitParaCelsius(212)).toBe(100);
+    });
+  });
+
+  describe('inverso', () => {
+    test('deve lançar erro para zero', () => {
+      expect(() => inverso(0)).toThrow('Não é possível inverter o número zero.');
+    });
+  });
+
+  describe('comparações', () => {
+    test('isMaiorQue deve retornar false quando a é menor ou igual a b', () => {
+      expect(isMaiorQue(5, 10)).toBe(false);
+      expect(isMaiorQue(5, 5)).toBe(false);
+    });
+    test('isMenorQue deve retornar false quando a é maior ou igual a b', () => {
+      expect(isMenorQue(10, 5)).toBe(false);
+      expect(isMenorQue(5, 5)).toBe(false);
+    });
+    test('isEqual deve retornar false para números diferentes', () => {
+      expect(isEqual(7, 8)).toBe(false);
+    });
+  });
+
+  describe('medianaArray', () => {
+    test('deve lançar erro para array vazio', () => {
+      expect(() => medianaArray([])).toThrow('possui mediana.');
+    });
+    test('deve ordenar numericamente antes de pegar o elemento do meio', () => {
+      expect(medianaArray([1, 10, 2])).toBe(2);
+    });
+    test('deve fazer a média dos dois elementos do meio em array par', () => {
+      expect(medianaArray([8, 2, 6, 4])).toBe(5);
+    });
+  });
+});
