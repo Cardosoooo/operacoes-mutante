@@ -59,4 +59,4 @@ O relatório HTML do Stryker é gerado em `reports/mutation/mutation.html`.
 
 Os 5 mutantes que sobram com os testes novos são equivalentes (não mudam o comportamento) e estão marcados com `// Stryker disable next-line` em `src/operacoes.js`, com o motivo no próprio comentário. A explicação completa está na seção 5 do relatório.
 
-O `npx stryker init` desta versão (10.0) gera o arquivo `stryker.config.json`, e não `stryker.conf.json` como diz o enunciado.
+O `npx stryker init` desta versão (10.0) gera o arquivo `stryker.config.json`, e não `stryker.conf.json` como diz o enunciado. O Stryker aceita os dois nomes.
